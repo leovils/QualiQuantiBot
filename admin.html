@@ -219,6 +219,9 @@
                     <p id="total-sessions-label">Carregando dados da pesquisa...</p>
                 </div>
                 <div class="actions-bar">
+                    <button id="download-btn" class="btn btn-outline" style="border-color: var(--success); color: var(--success);" disabled>
+                        <i class="fa-solid fa-file-excel"></i> Exportar Planilha (CSV)
+                    </button>
                     <button id="refresh-btn" class="btn btn-primary">
                         <i class="fa-solid fa-arrows-rotate"></i> Atualizar
                     </button>
@@ -249,11 +252,54 @@
         }
 
         let questionsMap = {}; // Maps question ID to question text
+        let currentResults = []; // Stores the loaded responses for exporting
 
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("refresh-btn").addEventListener("click", loadDashboardData);
+            document.getElementById("download-btn").addEventListener("click", downloadCSV);
             loadDashboardData();
         });
+
+        function downloadCSV() {
+            if (currentResults.length === 0) return;
+            
+            const headers = ["Sessão ID", "Data/Hora", "ID Pergunta", "Texto da Pergunta", "Tipo de Resposta", "Resposta Coletada", "Link do Áudio"];
+            const rows = [headers];
+            
+            currentResults.forEach(row => {
+                const qInfo = questionsMap[row.question_id] || { text: `Pergunta (${row.question_id})`, index: "?" };
+                const dateStr = new Date(row.created_at).toLocaleString("pt-BR");
+                
+                let audioUrl = "";
+                if (row.response_type === "audio" && row.audio_path) {
+                    const { data } = supabaseClient.storage.from('audio-responses').getPublicUrl(row.audio_path);
+                    audioUrl = data.publicUrl;
+                }
+                
+                rows.push([
+                    row.session_id,
+                    dateStr,
+                    row.question_id,
+                    qInfo.text,
+                    row.response_type,
+                    row.text_response || "",
+                    audioUrl
+                ]);
+            });
+            
+            // Format array to CSV using semicolon separator (Excel standard in Portuguese)
+            const csvString = "\uFEFF" + rows.map(e => e.map(val => `"${val.toString().replace(/"/g, '""')}"`).join(";")).join("\r\n");
+            
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `respostas_pesquisa_quorum_${new Date().toISOString().slice(0,10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         async function loadDashboardData() {
             const contentDiv = document.getElementById("dashboard-content");
@@ -285,6 +331,9 @@
                     .order('created_at', { ascending: true });
                 
                 if (error) throw error;
+                
+                currentResults = results || [];
+                document.getElementById("download-btn").disabled = currentResults.length === 0;
                 
                 if (!results || results.length === 0) {
                     sessionsLabel.innerText = "Nenhuma resposta coletada até o momento.";
