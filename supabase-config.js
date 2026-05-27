@@ -1,4 +1,3 @@
 ﻿// Configurações do seu projeto Supabase
-// Substitua pelas credenciais obtidas no painel do seu projeto Supabase (Configurações > API)
-const SUPABASE_URL = "SUA_SUPABASE_URL_AQUI";
-const SUPABASE_ANON_KEY = "SUA_SUPABASE_ANON_KEY_AQUI";
+const SUPABASE_URL = "https://ogxdpqpwcgzxgtkoskqc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9neGRwcXB3Y2d6eGd0a29za3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4OTEzNDgsImV4cCI6MjA5NTQ2NzM0OH0.xHLVMweqgpxgCRRmXQeDElyzrLwFsf0YZ5ZLrq9755A";
