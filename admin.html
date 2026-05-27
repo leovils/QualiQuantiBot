@@ -458,9 +458,6 @@
                 const hasAudios = currentResults.some(r => r.response_type === "audio" && r.audio_path);
                 document.getElementById("download-zip-btn").disabled = !hasAudios;
                 
-                // Habilitar botão de ZIP apenas se houver pelo menos um áudio cadastrado
-                const hasAudios = currentResults.some(r => r.response_type === "audio" && r.audio_path);
-                document.getElementById("download-zip-btn").disabled = !hasAudios;
                 
                 if (!results || results.length === 0) {
                     sessionsLabel.innerText = "Nenhuma resposta coletada até o momento.";
