@@ -1,0 +1,137 @@
+[
+  {
+    "id": "q_open_diff",
+    "type": "audio_text",
+    "question": "O que faz da Quorum Brasil um Instituto de Pesquisa Diferenciado?"
+  },
+  {
+    "id": "q_choice_rigor",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n⭐ Rigor Metodológico",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_prateleira",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n📦 Produtos de Prateleira (metodologias proprietárias/prontas)",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_atendimento",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n🤝 Atendimento Consultivo e Próximo",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_agilidade",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n⚡ Agilidade nos Prazos de Entrega",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_solidez",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n🏢 Experiência e Solidez no Mercado",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_custo",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n💰 Custo-Benefício Competitivo",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_inovacao",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n🚀 Inovação Tecnológica e Ferramentas Modernas",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_relatorios",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n📊 Relatórios Visuais e Recomendações Práticas (Acionáveis)",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_flexibilidade",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n🔄 Flexibilidade para Adaptar Projetos",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_choice_transparencia",
+    "type": "choice",
+    "question": "Avalie o atributo a seguir sobre a diferenciação da Quorum Brasil:\n\n🕊️ Transparência e Ética em Todas as Etapas",
+    "options": [
+      "1 - Nada diz da QB",
+      "2 - Diz muito pouco",
+      "3 - Neutro / Diz em parte",
+      "4 - Diz bastante",
+      "5 - Tudo diz da QB"
+    ]
+  },
+  {
+    "id": "q_open_justify",
+    "type": "audio_text",
+    "question": "Justifique a sua resposta anterior."
+  },
+  {
+    "id": "q_open_declare",
+    "type": "audio_text",
+    "question": "Algo mais a declarar?"
+  }
+]

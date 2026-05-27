@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrevista de Pesquisa Interativa</title>
+    <!-- Google Fonts: Outfit (headings) and Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glass-bg-elements">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-comments-pie logo-icon"></i>
+                <span>QualiQuanti<span>Bot</span></span>
+            </div>
+            <div class="header-badge">
+                <span class="status-dot"></span> Pesquisa Ativa
+            </div>
+        </header>
+
+        <!-- Main Card -->
+        <main class="main-card">
+            <!-- Screen 1: Welcome Screen -->
+            <section id="welcome-screen" class="screen active">
+                <div class="welcome-content">
+                    <div class="welcome-icon-wrapper">
+                        <i class="fa-solid fa-microphone-lines welcome-icon"></i>
+                    </div>
+                    <h1>Sua voz importa</h1>
+                    <p>Bem-vindo à nossa entrevista interativa. Você responderá a algumas perguntas e poderá escolher entre <strong>digitar</strong> ou <strong>gravar áudios</strong> para suas respostas, além de responder a opções rápidas.</p>
+                    
+                    <div class="welcome-details">
+                        <div class="detail-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>Aprox. 3 minutos</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Respostas Anônimas & Seguras</span>
+                        </div>
+                    </div>
+
+                    <button id="start-btn" class="btn btn-primary btn-large">
+                        Começar Entrevista <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 1.5: Instructions Screen -->
+            <section id="instructions-screen" class="screen">
+                <div class="instructions-content">
+                    <div class="welcome-icon-wrapper">
+                        <i class="fa-solid fa-circle-info welcome-icon"></i>
+                    </div>
+                    <h1>Como responder?</h1>
+                    <p>Veja como é simples registrar as suas respostas por voz:</p>
+                    
+                    <div class="instructions-list">
+                        <div class="instruction-step">
+                            <div class="step-num"><i class="fa-solid fa-microphone"></i></div>
+                            <div class="step-text">
+                                <h3>1. Inicie a gravação</h3>
+                                <p>Clique no botão vermelho do microfone para começar a falar.</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-num"><i class="fa-solid fa-stop"></i></div>
+                            <div class="step-text">
+                                <h3>2. Pare quando terminar</h3>
+                                <p>Clique no botão quadrado para encerrar a sua fala.</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-num"><i class="fa-solid fa-circle-play"></i></div>
+                            <div class="step-text">
+                                <h3>3. Revise e Envie</h3>
+                                <p>Ouça o teste, clique em "Refazer" se quiser gravar de novo, ou em "Enviar" para salvar.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="instructions-ok-btn" class="btn btn-primary btn-large btn-full">
+                        Entendi, Vamos Começar! <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 2: Question Screen -->
+            <section id="question-screen" class="screen">
+                <!-- Progress Header -->
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span id="question-index-label">Pergunta 1 de 5</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                </div>
+
+                <!-- Question Text -->
+                <div class="question-box">
+                    <h2 id="question-text">Carregando pergunta...</h2>
+                </div>
+
+                <!-- Answer Container -->
+                <div class="answer-container">
+                    <!-- Choice Question View (Quantitative) -->
+                    <div id="choice-view" class="answer-view hide">
+                        <div id="options-list" class="options-grid">
+                            <!-- Options buttons rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Audio/Text Question View (Qualitative) -->
+                    <div id="audio-text-view" class="answer-view hide">
+                        <!-- Mode Tabs -->
+                        <div class="answer-tabs">
+                            <button id="tab-audio" class="tab-btn active" onclick="switchInputMode('audio')">
+                                <i class="fa-solid fa-microphone"></i> Responder por Áudio
+                            </button>
+                            <button id="tab-text" class="tab-btn" onclick="switchInputMode('text')">
+                                <i class="fa-solid fa-keyboard"></i> Responder por Escrito
+                            </button>
+                        </div>
+
+                        <!-- Tab Content: Audio -->
+                        <div id="input-audio-container" class="tab-content active">
+                            <!-- Instrução didática de gravação -->
+                            <div class="audio-helper-instruction">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span><strong>Instruções:</strong> 1. Clique no microfone abaixo para gravar -> 2. Clique em Parar (quadrado) -> 3. Clique em <strong>Enviar Áudio</strong> para salvar.</span>
+                            </div>
+                            <div class="audio-recorder-box">
+                                <!-- Wave animation indicator -->
+                                <div id="recording-wave" class="recording-wave hide">
+                                    <span class="stroke"></span>
+                                    <span class="stroke"></span>
+                                    <span class="stroke"></span>
+                                    <span class="stroke"></span>
+                                    <span class="stroke"></span>
+                                </div>
+
+                                <div id="recording-timer" class="recording-timer">00:00</div>
+                                <div id="recording-status" class="recording-status">Pronto para gravar</div>
+
+                                <!-- Controls Row -->
+                                <div class="recorder-controls">
+                                    <button id="record-btn" class="control-btn record" title="Iniciar Gravação">
+                                        <i class="fa-solid fa-microphone"></i>
+                                    </button>
+                                    <button id="stop-btn" class="control-btn stop hide" title="Parar Gravação">
+                                        <i class="fa-solid fa-square"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Audio Player Preview (Hidden until recorded) -->
+                                <div id="audio-preview-container" class="audio-preview-container hide">
+                                    <div class="audio-player-wrapper">
+                                        <audio id="audio-preview" controls></audio>
+                                    </div>
+                                    <button id="delete-audio-btn" class="btn btn-danger-icon" title="Excluir e regravar">
+                                        <i class="fa-solid fa-trash-can"></i> Refazer
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button id="submit-audio-btn" class="btn btn-primary btn-full hide">
+                                Enviar Áudio <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+
+                        <!-- Tab Content: Text -->
+                        <div id="input-text-container" class="tab-content">
+                            <textarea id="text-response-input" class="text-input-area" placeholder="Digite sua resposta em detalhes aqui..."></textarea>
+                            <button id="submit-text-btn" class="btn btn-primary btn-full">
+                                Enviar Resposta Escrita <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screen 3: Completed Screen -->
+            <section id="completed-screen" class="screen">
+                <div class="completed-content">
+                    <div class="completed-icon-wrapper">
+                        <i class="fa-solid fa-circle-check completed-icon"></i>
+                    </div>
+                    <h1>Muito obrigado!</h1>
+                    <p>Suas respostas foram armazenadas com sucesso. Agradecemos imensamente sua participação em nossa pesquisa.</p>
+                    
+                    <div class="completed-footer">
+                        <button id="restart-btn" class="btn btn-secondary">
+                            <i class="fa-solid fa-rotate-left"></i> Responder Novamente
+                        </button>
+                        <a href="admin.html" class="btn btn-outline" target="_blank">
+                            <i class="fa-solid fa-chart-line"></i> Ver Resultados (Admin)
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Supabase JS SDK & Configuration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <!-- Javascript file -->
+    <script src="app.js"></script>
+</body>
+</html>
