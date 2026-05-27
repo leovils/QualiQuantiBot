@@ -7,6 +7,14 @@ if (typeof supabase !== 'undefined' && supabase.createClient) {
     console.error("Supabase SDK not loaded or config missing.");
 }
 
+// Initialize Supabase Client
+let supabaseClient = null;
+if (typeof supabase !== 'undefined' && supabase.createClient) {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} else {
+    console.error("Supabase SDK not loaded or config missing.");
+}
+
 let sessionId = "";
 let questions = [];
 let currentQuestionIndex = 0;

@@ -219,6 +219,9 @@
                     <p id="total-sessions-label">Carregando dados da pesquisa...</p>
                 </div>
                 <div class="actions-bar">
+                    <button id="download-zip-btn" class="btn btn-outline" style="border-color: var(--accent-pink); color: var(--accent-pink);" disabled>
+                        <i class="fa-solid fa-file-zipper"></i> Baixar Áudios (ZIP)
+                    </button>
                     <button id="download-btn" class="btn btn-outline" style="border-color: var(--success); color: var(--success);" disabled>
                         <i class="fa-solid fa-file-excel"></i> Exportar Planilha (CSV)
                     </button>
@@ -241,6 +244,7 @@
 
     <!-- Supabase JS SDK & Configuration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="supabase-config.js"></script>
     <script>
         // Initialize Supabase Client
@@ -257,8 +261,123 @@
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("refresh-btn").addEventListener("click", loadDashboardData);
             document.getElementById("download-btn").addEventListener("click", downloadCSV);
+            document.getElementById("download-zip-btn").addEventListener("click", downloadAllAudiosZip);
             loadDashboardData();
         });
+
+        async function downloadAllAudiosZip() {
+            const audioResponses = currentResults.filter(r => r.response_type === "audio" && r.audio_path);
+            if (audioResponses.length === 0) {
+                alert("Nenhuma gravação de áudio encontrada para baixar.");
+                return;
+            }
+
+            const zipBtn = document.getElementById("download-zip-btn");
+            const originalText = zipBtn.innerHTML;
+            zipBtn.disabled = true;
+            
+            try {
+                const zip = new JSZip();
+                
+                for (let i = 0; i < audioResponses.length; i++) {
+                    const resp = audioResponses[i];
+                    zipBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Baixando (${i + 1}/${audioResponses.length})...`;
+                    
+                    const qInfo = questionsMap[resp.question_id] || { text: `Pergunta_${resp.question_id}`, index: "?" };
+                    
+                    // Gerar URL pública do Supabase Storage
+                    const { data } = supabaseClient.storage.from('audio-responses').getPublicUrl(resp.audio_path);
+                    const audioUrl = data.publicUrl;
+                    
+                    // Buscar o arquivo (Fetch) como blob
+                    const fileResponse = await fetch(audioUrl);
+                    if (!fileResponse.ok) continue;
+                    const blob = await fileResponse.blob();
+                    
+                    // Formatar caminho e nome de arquivo dentro do ZIP
+                    const folderName = `Sessao_${resp.session_id}`;
+                    const safeQuestionId = resp.question_id.replace(/[^a-zA-Z0-9-_]/g, "_");
+                    const filename = `${folderName}/Q${qInfo.index}_${safeQuestionId}.webm`;
+                    
+                    zip.file(filename, blob);
+                }
+                
+                zipBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Compactando ZIP...`;
+                const content = await zip.generateAsync({ type: "blob" });
+                
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(content);
+                link.download = `audios_pesquisa_quorum_${new Date().toISOString().slice(0,10)}.zip`;
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+            } catch (error) {
+                console.error("Erro ao gerar ZIP:", error);
+                alert("Erro ao baixar áudios como ZIP.");
+            } finally {
+                zipBtn.disabled = false;
+                zipBtn.innerHTML = originalText;
+            }
+        }
+
+        async function downloadAllAudiosZip() {
+            const audioResponses = currentResults.filter(r => r.response_type === "audio" && r.audio_path);
+            if (audioResponses.length === 0) {
+                alert("Nenhuma gravação de áudio encontrada para baixar.");
+                return;
+            }
+
+            const zipBtn = document.getElementById("download-zip-btn");
+            const originalText = zipBtn.innerHTML;
+            zipBtn.disabled = true;
+            
+            try {
+                const zip = new JSZip();
+                
+                for (let i = 0; i < audioResponses.length; i++) {
+                    const resp = audioResponses[i];
+                    zipBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Baixando (${i + 1}/${audioResponses.length})...`;
+                    
+                    const qInfo = questionsMap[resp.question_id] || { text: `Pergunta_${resp.question_id}`, index: "?" };
+                    
+                    // Gerar URL pública do Supabase Storage
+                    const { data } = supabaseClient.storage.from('audio-responses').getPublicUrl(resp.audio_path);
+                    const audioUrl = data.publicUrl;
+                    
+                    // Buscar o arquivo (Fetch) como blob
+                    const fileResponse = await fetch(audioUrl);
+                    if (!fileResponse.ok) continue;
+                    const blob = await fileResponse.blob();
+                    
+                    // Formatar caminho e nome de arquivo dentro do ZIP
+                    const folderName = `Sessao_${resp.session_id}`;
+                    const safeQuestionId = resp.question_id.replace(/[^a-zA-Z0-9-_]/g, "_");
+                    const filename = `${folderName}/Q${qInfo.index}_${safeQuestionId}.webm`;
+                    
+                    zip.file(filename, blob);
+                }
+                
+                zipBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Compactando ZIP...`;
+                const content = await zip.generateAsync({ type: "blob" });
+                
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(content);
+                link.download = `audios_pesquisa_quorum_${new Date().toISOString().slice(0,10)}.zip`;
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+            } catch (error) {
+                console.error("Erro ao gerar ZIP:", error);
+                alert("Erro ao baixar áudios como ZIP.");
+            } finally {
+                zipBtn.disabled = false;
+                zipBtn.innerHTML = originalText;
+            }
+        }
 
         function downloadCSV() {
             if (currentResults.length === 0) return;
@@ -334,6 +453,14 @@
                 
                 currentResults = results || [];
                 document.getElementById("download-btn").disabled = currentResults.length === 0;
+                
+                // Habilitar botão de ZIP apenas se houver pelo menos um áudio cadastrado
+                const hasAudios = currentResults.some(r => r.response_type === "audio" && r.audio_path);
+                document.getElementById("download-zip-btn").disabled = !hasAudios;
+                
+                // Habilitar botão de ZIP apenas se houver pelo menos um áudio cadastrado
+                const hasAudios = currentResults.some(r => r.response_type === "audio" && r.audio_path);
+                document.getElementById("download-zip-btn").disabled = !hasAudios;
                 
                 if (!results || results.length === 0) {
                     sessionsLabel.innerText = "Nenhuma resposta coletada até o momento.";
